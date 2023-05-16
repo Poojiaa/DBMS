@@ -1,0 +1,81 @@
+mysql>mysql> show dsatabases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dsatabases' at line 1
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| kims               |
+| mysql              |
+| performance_schema |
+| sse                |
+| test               |
++--------------------+
+6 rows in set (0.05 sec)
+
+mysql> use kims;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_kims |
++----------------+
+| doctor         |
+| patient        |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> select*from patient;
++----------+-------------+------+---------+--------+
+| patiname | patidisease | fee  | address | patiid |
++----------+-------------+------+---------+--------+
+| satya    | fever       | 2000 | NULL    |      1 |
+| karthi   | headache    | 1000 | NULL    |      2 |
+| prem     | cold        | 1000 | chennai |      3 |
+| suma     | stomachache | 1500 | madurai |      4 |
+| lalitha  | fever       | 1500 | nellore |      5 |
+| harini   | handpain    | 3000 | pondi   |      9 |
++----------+-------------+------+---------+--------+
+6 rows in set (0.02 sec)
+
+mysql> select*from patient order by fee;
++----------+-------------+------+---------+--------+
+| patiname | patidisease | fee  | address | patiid |
++----------+-------------+------+---------+--------+
+| karthi   | headache    | 1000 | NULL    |      2 |
+| prem     | cold        | 1000 | chennai |      3 |
+| suma     | stomachache | 1500 | madurai |      4 |
+| lalitha  | fever       | 1500 | nellore |      5 |
+| satya    | fever       | 2000 | NULL    |      1 |
+| harini   | handpain    | 3000 | pondi   |      9 |
++----------+-------------+------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select*from patient group by fee;
++----------+-------------+------+---------+--------+
+| patiname | patidisease | fee  | address | patiid |
++----------+-------------+------+---------+--------+
+| karthi   | headache    | 1000 | NULL    |      2 |
+| suma     | stomachache | 1500 | madurai |      4 |
+| satya    | fever       | 2000 | NULL    |      1 |
+| harini   | handpain    | 3000 | pondi   |      9 |
++----------+-------------+------+---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select patiname from patirnt having fee>1500;
+ERROR 1146 (42S02): Table 'kims.patirnt' doesn't exist
+mysql> select patiname from patient having in fee>1500;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in fee>1500' at line 1
+mysql> select patiname from patient having fee>1500;
+ERROR 1054 (42S22): Unknown column 'fee' in 'having clause'
+mysql> select patiname from patient having fee>1500;
+ERROR 1054 (42S22): Unknown column 'fee' in 'having clause'
+mysql> select*from patient having fee>1500;
++----------+-------------+------+---------+--------+
+| patiname | patidisease | fee  | address | patiid |
++----------+-------------+------+---------+--------+
+| satya    | fever       | 2000 | NULL    |      1 |
+| harini   | handpain    | 3000 | pondi   |      9 |
++----------+-------------+------+---------+--------+
+2 rows in set (0.00 sec)
+
+
