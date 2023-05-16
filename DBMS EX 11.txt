@@ -1,0 +1,93 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| kims               |
+| mysql              |
+| performance_schema |
+| sse                |
+| test               |
++--------------------+
+6 rows in set (0.03 sec)
+
+mysql> use kims;
+Database changed
+mysql> select*from patient;
++----------+-------------+------+---------+--------+
+| patiname | patidisease | fee  | address | patiid |
++----------+-------------+------+---------+--------+
+| satya    | fever       | 2000 | NULL    |      1 |
+| karthi   | headache    | 1000 | NULL    |      2 |
+| prem     | cold        | 1000 | chennai |      3 |
+| suma     | stomachache | 1500 | madurai |      4 |
+| lalitha  | fever       | 1500 | nellore |      5 |
+| harini   | handpain    | 3000 | pondi   |      9 |
++----------+-------------+------+---------+--------+
+6 rows in set (0.01 sec)
+
+mysql> select patiname,patidisease,fee ,CASE WHEN fee>2000 THEN 'high cost' WHEN fee>1500 THEN 'costly' else 'average' END AS performance from patie
+nt;
++----------+-------------+------+-------------+
+| patiname | patidisease | fee  | performance |
++----------+-------------+------+-------------+
+| satya    | fever       | 2000 | costly      |
+| karthi   | headache    | 1000 | average     |
+| prem     | cold        | 1000 | average     |
+| suma     | stomachache | 1500 | average     |
+| lalitha  | fever       | 1500 | average     |
+| harini   | handpain    | 3000 | high cost   |
++----------+-------------+------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select patiid,fee,if(fee>2000,"costly","highly cost") from patient;
++--------+------+-------------------------------------+
+| patiid | fee  | if(fee>2000,"costly","highly cost") |
++--------+------+-------------------------------------+
+|      1 | 2000 | highly cost                         |
+|      2 | 1000 | highly cost                         |
+|      3 | 1000 | highly cost                         |
+|      4 | 1500 | highly cost                         |
+|      5 | 1500 | highly cost                         |
+|      9 | 3000 | costly                              |
++--------+------+-------------------------------------+
+6 rows in set (0.00 sec)
+
+mysql> select patiname,patidisease,fee ,CASE WHEN fee>2000 THEN 'high cost' WHEN fee>1500 THEN 'costly' else 'average' END AS performance from patie
+
+    -> nt;
+ERROR 1146 (42S02): Table 'kims.patie' doesn't exist
+mysql> DELIMITER $$
+mysql> CREATE FUNCTION REPEAT_DEMO(INC INT)
+    -> RETURNS CHAR(40)
+    -> DETERMINISTIC
+    -> BEGIN
+    -> DECLARE INCOME INT;
+    -> SET INCOME=0;
+    -> REPEAT
+    -> SET INCOME=INCOME+INC;
+    -> UNTIL INCOME>4000
+    -> END REPEAT;
+    -> RETURN "INCOME>4000 DETECTED";
+    -> END;$$
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> Select REPEAT_DEMO(3000);$$\
++----------------------+
+| REPEAT_DEMO(3000)    |
++----------------------+
+| INCOME>4000 DETECTED |
++----------------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT REPEAT_DEMO(4000);$$
++----------------------+
+| REPEAT_DEMO(4000)    |
++----------------------+
+| INCOME>4000 DETECTED |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE FUNCTION WHILE_DEMO(VALUE CHAR(1))
+    -> RETURNS CHAR(20)
