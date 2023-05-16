@@ -1,0 +1,97 @@
+mysql>
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| kims               |
+| mysql              |
+| performance_schema |
+| sse                |
+| test               |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> use kims;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_kims |
++----------------+
+| doctor         |
+| patient        |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> select *from patient;
++----------+-------------+------+---------+--------+
+| patiname | patidisease | fee  | address | patiid |
++----------+-------------+------+---------+--------+
+| satya    | fever       | 2000 | NULL    |      1 |
+| karthi   | headache    | 1000 | NULL    |      2 |
+| prem     | cold        | 1000 | chennai |      3 |
+| suma     | stomachache | 1500 | madurai |      4 |
+| lalitha  | fever       | 1500 | nellore |      5 |
+| harini   | handpain    | 3000 | pondi   |      9 |
++----------+-------------+------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select patiname ,patidisease ,adress from patient where patiname in(select patiname from patient where patiid=3);
+ERROR 1054 (42S22): Unknown column 'adress' in 'field list'
+mysql> select patiname,address from patient where patiname in(select patiname from patient where patiid=3);
++----------+---------+
+| patiname | address |
++----------+---------+
+| prem     | chennai |
++----------+---------+
+1 row in set (0.01 sec)
+
+mysql> desc patient;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| patiname    | varchar(20) | YES  | UNI | NULL    |       |
+| patidisease | varchar(20) | YES  |     | NULL    |       |
+| fee         | int(10)     | YES  |     | NULL    |       |
+| address     | varchar(10) | YES  |     | NULL    |       |
+| patiid      | int(10)     | NO   | PRI | 0       |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> create table patient(id int(10),name(20));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(20))' at line 1
+mysql> create table patient(id int(10),name varchar(20));
+ERROR 1050 (42S01): Table 'patient' already exists
+mysql> create table patient(id int(10),patiname varchar(20));,,,,,,
+ERROR 1050 (42S01): Table 'patient' already exists
+    -> create table patient1(id(10),patiname varchar(20);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',,,,,
+create table patient1(id(10),patiname varchar(20)' at line 1
+mysql> create table patient1(id int(10),patiname varchar(20));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into patient1(id,patiname);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> insert into patient1(id,patiname)
+    -> select patiid,patiname
+    -> from patient where address="chennai";
+Query OK, 1 row affected (0.01 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> select*from patient1;
++------+----------+
+| id   | patiname |
++------+----------+
+|    3 | prem     |
++------+----------+
+1 row in set (0.00 sec)
+
+mysql> select fee,(select patiname from patient1 where id=3)as patiname,patidiseasefrom patient where id=3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where id=3' at line 1
+mysql> select fee,(select patiname from patient1 where id=3)as patiname,patidisease from patient where patiid=3;
++------+----------+-------------+
+| fee  | patiname | patidisease |
++------+----------+-------------+
+| 1000 | prem     | cold        |
++------+----------+-------------+
+1 row in set (0.00 sec)
