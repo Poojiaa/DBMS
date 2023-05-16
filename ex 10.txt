@@ -1,0 +1,93 @@
+mysql> select*from patient;
++----------+-------------+------+---------+--------+
+| patiname | patidisease | fee  | address | patiid |
++----------+-------------+------+---------+--------+
+| satya    | fever       | 2000 | NULL    |      1 |
+| karthi   | headache    | 1000 | NULL    |      2 |
+| prem     | cold        | 1000 | chennai |      3 |
+| suma     | stomachache | 1500 | madurai |      4 |
+| lalitha  | fever       | 1500 | nellore |      5 |
+| harini   | handpain    | 3000 | pondi   |      9 |
++----------+-------------+------+---------+--------+
+6 rows in set (0.05 sec)
+
+mysql> create view fee_view as select adress,patidisease,fee from patient;
+ERROR 1054 (42S22): Unknown column 'adress' in 'field list'
+mysql> create view fee_view as select address,patidisease,fee from patient;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from fee_view;
++---------+-------------+------+
+| address | patidisease | fee  |
++---------+-------------+------+
+| NULL    | fever       | 2000 |
+| NULL    | headache    | 1000 |
+| chennai | cold        | 1000 |
+| madurai | stomachache | 1500 |
+| nellore | fever       | 1500 |
+| pondi   | handpain    | 3000 |
++---------+-------------+------+
+6 rows in set (0.01 sec)
+
+mysql> create index address on patient(address);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show index from patient;
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Table   | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| patient |          0 | PRIMARY  |            1 | patiid      | A         |           6 |     NULL | NULL   |      | BTREE      |         |               |
+| patient |          0 | patiid   |            1 | patiid      | A         |           6 |     NULL | NULL   |      | BTREE      |         |               |
+| patient |          0 | patiname |            1 | patiname    | A         |           6 |     NULL | NULL   | YES  | BTREE      |         |               |
+| patient |          1 | address  |            1 | address     | A         |           6 |     NULL | NULL   | YES  | BTREE      |         |               |
++---------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+4 rows in set (0.01 sec)
+
+mysql> create table admin(id NOT NULL AUTO_INCRMENT,Name varchar(20),age int(10),primarykey(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NOT NULL AUTO_INCRMENT,Name varchar(20),age int(10),primarykey(id))' at line 1
+mysql> create table admin(id NOT NULL AUTO_INCREMENT,name varchar(20),age int(10), PRIMARY KEY(id));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NOT NULL AUTO_INCREMENT,name varchar(20),age int(10), PRIMARY KEY(id))' at line 1
+mysql> create table admin(id int NOT NULL AUTO_INCREMENT,name varchar(20),age int(10), PRIMARY KEY(id));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc admin;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| name  | varchar(20) | YES  |     | NULL    |                |
+| age   | int(10)     | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+3 rows in set (0.01 sec)
+
+mysql> alter table admin autoincrement = 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'autoincrement = 1' at line 1
+mysql> alter table admin AUTO_INCREMNET=1
+    -> alter table admin AUTO_INCREMENT=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTO_INCREMNET=1
+alter table admin AUTO_INCREMENT=1' at line 1
+mysql> alter admin AUTO_INCEREMENT=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'admin AUTO_INCEREMENT=1' at line 1
+mysql> alter table admin AUTO_INCREMENTY=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AUTO_INCREMENTY=1' at line 1
+mysql> alter table admin AUTO_INCREMENT=1;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into admin(name,age) values ("hari",24);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into admin (name,age) values ("hema",28);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from admin;
++----+------+------+
+| id | name | age  |
++----+------+------+
+|  1 | hari |   24 |
+|  2 | hema |   28 |
++----+------+------+
+2 rows in set (0.00 sec)
+
+mysql> mysql> create table admin(id NOT NULL AUTO_INCREMENT,name varchar(20),age int(10), PRIMARY KEY(id));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
