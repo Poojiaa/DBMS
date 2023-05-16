@@ -1,0 +1,186 @@
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_kims |
++----------------+
+| doctor         |
+| patient        |
+| patient1       |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> create table details(name varchar(12),disease varchar(10),patiid(10));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(10))' at line 1
+mysql> create table details(name varchar(12),disease varchar(10),patiid int(10));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select*from patient;
++----------+-------------+------+---------+--------+
+| patiname | patidisease | fee  | address | patiid |
++----------+-------------+------+---------+--------+
+| satya    | fever       | 2000 | NULL    |      1 |
+| karthi   | headache    | 1000 | NULL    |      2 |
+| prem     | cold        | 1000 | chennai |      3 |
+| suma     | stomachache | 1500 | madurai |      4 |
+| lalitha  | fever       | 1500 | nellore |      5 |
+| harini   | handpain    | 3000 | pondi   |      9 |
++----------+-------------+------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> insert into details values("suma","stomachache",8);
+ERROR 1406 (22001): Data too long for column 'disease' at row 1
+mysql> insert into details value("suma","cold",8);
+Query OK, 1 row affected (0.00 sec)
+
+mysqlmysql> use kims;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_kims |
++----------------+
+| details        |
+| doctor         |
+| patient        |
+| patient1       |
++----------------+
+4 rows in set (0.01 sec)
+
+mysql> select details;
+ERROR 1054 (42S22): Unknown column 'details' in 'field list'
+mysql> select*from details;
++------+---------+--------+
+| name | disease | patiid |
++------+---------+--------+
+| suma | cold    |      8 |
++------+---------+--------+
+1 row in set (0.02 sec)
+
+mysql> insert into details values("karthi","headache",9);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into details values("vish","handpain",11);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into details values("swathi","bodypain",10);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from details;
++--------+----------+--------+
+| name   | disease  | patiid |
++--------+----------+--------+
+| suma   | cold     |      8 |
+| karthi | headache |      9 |
+| vish   | handpain |     11 |
+| swathi | bodypain |     10 |
++--------+----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select disease,patiid from details,patient where patient.patiname=name.details;
+ERROR 1052 (23000): Column 'patiid' in field list is ambiguous
+mysql> select disease from details,patient where patient.patiname=details.name;
++----------+
+| disease  |
++----------+
+| cold     |
+| headache |
++----------+
+2 rows in set (0.01 sec)
+
+mysql> select disease from details,patient where patient.patientid=details.name;
+ERROR 1054 (42S22): Unknown column 'patient.patientid' in 'where clause'
+mysql> select disease from details,patient where patient.patiid=details.patiid;
++----------+
+| disease  |
++----------+
+| headache |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select name,patiid from details left outer join patient on details.name=patient.patiname;
+ERROR 1052 (23000): Column 'patiid' in field list is ambiguous
+mysql> select name from details left outer join patient on details.name=patient.patiname;
++--------+
+| name   |
++--------+
+| suma   |
+| karthi |
+| vish   |
+| swathi |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> select disease from details left outer join patient on details.name=patient.patiname;
++----------+
+| disease  |
++----------+
+| cold     |
+| headache |
+| handpain |
+| bodypain |
++----------+
+4 rows in set (0.00 sec)
+
+
++--------+----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> update details set patiid=3 where disease="cold";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select adress,patiid,fee from patient left outer join details on patient.patiname=details.name;
+ERROR 1054 (42S22): Unknown column 'adress' in 'field list'
+mysql> select address,patiid,fee from patient left outer join detail on patient.patiname=details.name;
+ERROR 1146 (42S02): Table 'kims.detail' doesn't exist
+mysql> select address ,patiid,fee from patient left outer join details on patient.patiname=details.name;
+ERROR 1052 (23000): Column 'patiid' in field list is ambiguous
+mysql> select address,fee from patient left outer join details on patient.patiname=details.name;
++---------+------+
+| address | fee  |
++---------+------+
+| NULL    | 2000 |
+| NULL    | 1000 |
+| chennai | 1000 |
+| madurai | 1500 |
+| nellore | 1500 |
+| pondi   | 3000 |
++---------+------+
+6 rows in set (0.00 sec)
+
+mysql> select address ,patidisease,fee from patient right outer join details on patient.patiname=details.name;
++---------+-------------+------+
+| address | patidisease | fee  |
++---------+-------------+------+
+| madurai | stomachache | 1500 |
+| NULL    | headache    | 1000 |
+| NULL    | NULL        | NULL |
+| NULL    | NULL        | NULL |
++---------+-------------+------+
+4 rows in set (0.00 sec)
+
+mysql>mysql> select*from patient;
++----------+-------------+------+---------+--------+
+| patiname | patidisease | fee  | address | patiid |
++----------+-------------+------+---------+--------+
+| satya    | fever       | 2000 | NULL    |      1 |
+| karthi   | headache    | 1000 | NULL    |      2 |
+| prem     | cold        | 1000 | chennai |      3 |
+| suma     | stomachache | 1500 | madurai |      4 |
+| lalitha  | fever       | 1500 | nellore |      5 |
+| harini   | handpain    | 3000 | pondi   |      9 |
++----------+-------------+------+---------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select*from details;
++--------+----------+--------+
+| name   | disease  | patiid |
++--------+----------+--------+
+| suma   | cold     |      8 |
+| karthi | headache |      9 |
+| vish   | handpain |     11 |
+| swathi | bodypain |     10 |
+
+
+
+
+,
