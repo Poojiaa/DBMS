@@ -1,0 +1,35 @@
+mysql>mysql> select*from patient;
++----------+-------------+------+---------+--------+
+| patiname | patidisease | fee  | address | patiid |
++----------+-------------+------+---------+--------+
+| satya    | fever       | 2000 | NULL    |      1 |
+| karthi   | headache    | 1000 | NULL    |      2 |
++----------+-------------+------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> inset into patient values("prem","cold",1000,"chennai",3);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'inset into patient values("prem","cold",1000,"chennai",3)' at line 1
+mysql> insert into patient values("prem","cold",1000,"chennai",3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into patient values("suma","stomachache",1500,"madurai",4);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into patient values("lalitha","fever",1500,"nellore",5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into patient values("harini","handpain",3000,"pondi",9);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from patient;
++----------+-------------+------+---------+--------+
+| patiname | patidisease | fee  | address | patiid |
++----------+-------------+------+---------+--------+
+| satya    | fever       | 2000 | NULL    |      1 |
+| karthi   | headache    | 1000 | NULL    |      2 |
+| prem     | cold        | 1000 | chennai |      3 |
+| suma     | stomachache | 1500 | madurai |      4 |
+| lalitha  | fever       | 1500 | nellore |      5 |
+| harini   | handpain    | 3000 | pondi   |      9 |
++----------+-------------+------+---------+--------+
+6 rows in set (0.00 sec)
