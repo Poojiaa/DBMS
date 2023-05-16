@@ -1,0 +1,85 @@
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| kims               |
+| mysql              |
+| performance_schema |
+| sse                |
+| test               |
++--------------------+
+6 rows in set (0.02 sec)
+
+mysql> use kims;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_kims |
++----------------+
+| doctor        -------+
+4 rows in set (0.02 sec)
+
+mysql> desc patient;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| patiname    | varchar(20) | YES  |     | NULL    |       |
+| patidisease | varchar(20) | YES  |     | NULL    |       |
+| fee         | int(10)     | YES  |     | NULL    |       |
+| address     | varchar(10) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> select * from doctor;
+Empty set (0.00 sec)
+
+mysql> select * from patient;
++----------+-------------+------+---------+
+| patiname | patidisease | fee  | address |
++----------+-------------+------+---------+
+| satish   | fever       | 2000 | NULL    |
+| ramesh   | cold        | 1000 | NULL    |
+| karthi   | headache    | 1000 | NULL    |
++----------+-------------+------+---------+
+3 rows in set (0.00 sec)
+
+mysql> create table test(testname varchar(10),testcost varchar(10));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_kims |
++----------------+
+| doctor         |
+| patient        |
+| test           |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> alter table doctor add mobilenumb int(20);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc doctor;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| docid      | int(10)     | YES  |     | NULL    |       |
+| docname    | varchar(20) | YES  |     | NULL    |       |
+| salary     | int(20)     | YES  |     | NULL    |       |
+| experience | varchar(20) | YES  |     | NULL    |       |
+| mobilenumb | int(20)     | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> drop table test;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_kims |
++----------------+
+| doctor         |
+| patient        |
++----------------+
+2 rows in set (0.00 sec)
